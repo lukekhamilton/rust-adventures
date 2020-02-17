@@ -1,0 +1,1 @@
+/Users/metta/Dropbox/Code/__Me__/rust-adventures/rust_crash_course/target/debug/rust_crash_course: /Users/metta/Dropbox/Code/__Me__/rust-adventures/rust_crash_course/src/cli.rs /Users/metta/Dropbox/Code/__Me__/rust-adventures/rust_crash_course/src/main.rs
