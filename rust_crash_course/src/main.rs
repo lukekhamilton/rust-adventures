@@ -1,4 +1,4 @@
-mod cli;
+mod point_ref;
 fn main() {
-    cli::run();
+    point_ref::run();
 }
