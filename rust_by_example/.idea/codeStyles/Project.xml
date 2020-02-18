@@ -1,0 +1,13 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <GoCodeStyleSettings>
+      <option name="ADD_LEADING_SPACE_TO_COMMENTS" value="true" />
+      <option name="IMPORT_SORTING" value="GOIMPORTS" />
+      <option name="MOVE_ALL_IMPORTS_IN_ONE_DECLARATION" value="true" />
+      <option name="GROUP_CURRENT_PROJECT_IMPORTS" value="true" />
+    </GoCodeStyleSettings>
+    <editorconfig>
+      <option name="ENABLED" value="false" />
+    </editorconfig>
+  </code_scheme>
+</component>
