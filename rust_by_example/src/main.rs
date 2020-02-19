@@ -6,8 +6,9 @@
 //mod display2;
 //mod testcase_list;
 //mod testcase_list_activity;
-mod formatting;
+//mod formatting;
 //mod threads;
+mod primitives;
 fn main() {
     //    comments::comments();
     //    formatted::formatted();
@@ -17,6 +18,7 @@ fn main() {
     //    display2::run();
     //    testcase_list::run();
     //    testcase_list_activity::run();
-    formatting::run();
+    //    formatting::run();
     //    threads::run();
+    primitives::run();
 }
