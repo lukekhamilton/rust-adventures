@@ -9,7 +9,8 @@
 //mod formatting;
 //mod threads;
 //mod primitives;
-mod literals_and_operators;
+//mod literals_and_operators;
+mod tuples;
 fn main() {
     //    comments::comments();
     //    formatted::formatted();
@@ -22,5 +23,6 @@ fn main() {
     //    formatting::run();
     //    threads::run();
     //    primitives::run();
-    literals_and_operators::run();
+    //    literals_and_operators::run();
+    tuples::run();
 }
