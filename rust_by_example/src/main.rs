@@ -8,7 +8,8 @@
 //mod testcase_list_activity;
 //mod formatting;
 //mod threads;
-mod primitives;
+//mod primitives;
+mod literals_and_operators;
 fn main() {
     //    comments::comments();
     //    formatted::formatted();
@@ -20,5 +21,6 @@ fn main() {
     //    testcase_list_activity::run();
     //    formatting::run();
     //    threads::run();
-    primitives::run();
+    //    primitives::run();
+    literals_and_operators::run();
 }
