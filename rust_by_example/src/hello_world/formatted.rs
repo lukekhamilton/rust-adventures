@@ -44,6 +44,6 @@ pub fn formatted() {
     println!("This struct `{}` won't print...", Structure(3).0);
 
     // Add Pi
-    let pi = 3.141592;
-    println!("Pi is roughly {:.2}", pi);
+    // let pi: f64 = 3.141592; // Not needed due to std::f64::consts::PI
+    println!("Pi is roughly {:.2}", std::f64::consts::PI);
 }
