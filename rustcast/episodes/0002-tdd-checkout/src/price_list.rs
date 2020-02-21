@@ -17,7 +17,6 @@ impl PriceList {
     }
 
     pub fn set(&mut self, item: Item, price: f64) {
-        println!("set item: {:?}, price: {}", item, price);
         match item {
             Apple => self.apple = price,
             Tomato => self.tomato = price,
@@ -34,8 +33,10 @@ impl PriceList {
     }
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
     fn test_price_list_default() {

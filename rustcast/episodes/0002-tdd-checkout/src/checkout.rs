@@ -1,11 +1,11 @@
 use crate::item::Item;
-use crate::item::Item::*;
 use crate::price_list::PriceList;
 
 pub struct Checkout {
     price_list: PriceList,
     items: Vec<Item>,
 }
+
 impl Checkout {
     pub fn new(price_list: PriceList) -> Self {
         Self {
@@ -30,13 +30,16 @@ impl Checkout {
     }
 
     pub fn scan(&mut self, item: Item) {
-        println!("scanned item: {:?}", item);
         self.items.push(item);
     }
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
+    use crate::item::Item;
+    use crate::item::Item::*;
+    use pretty_assertions::assert_eq;
 
     fn assert_total(items: Vec<Item>, expected_total: f64) {
         let mut checkout = build_check_out();
