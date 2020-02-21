@@ -1,74 +1,6 @@
-#[derive(Debug, Copy, Clone)]
-pub enum Item {
-    Apple,
-    Tomato,
-    Mango,
-}
-
-use Item::*;
-
-pub struct PriceList {
-    apple: f64,
-    tomato: f64,
-    mango: f64,
-}
-
-impl PriceList {
-    pub fn new() -> Self {
-        Self {
-            apple: 0.0,
-            tomato: 0.0,
-            mango: 0.0,
-        }
-    }
-
-    pub fn set(&mut self, item: Item, price: f64) {
-        match item {
-            Apple => self.apple = price,
-            Tomato => self.tomato = price,
-            Mango => self.mango = price,
-        }
-    }
-
-    fn get(&self, item: Item) -> f64 {
-        match item {
-            Apple => self.apple,
-            Tomato => self.tomato,
-            Mango => self.mango,
-        }
-    }
-}
-
-pub struct Checkout {
-    price_list: PriceList,
-    items: Vec<Item>,
-}
-impl Checkout {
-    pub fn new(price_list: PriceList) -> Self {
-        Self {
-            price_list,
-            items: Vec::new(),
-        }
-    }
-
-    pub fn total(&self) -> f64 {
-        //        let mut total: f64 = 0.0;
-        //        for &item in self.items.iter() {
-        //            let price = self.price_list.get(item);
-        //            total += price
-        //        }
-        //        total
-
-        self.items
-            .iter()
-            .map(|&item| self.price_list.get(item))
-            .sum()
-    }
-
-    pub fn scan(&mut self, item: Item) {
-        self.items.push(item);
-    }
-}
+mod checkout;
+mod item;
+mod price_list;
 
 #[cfg(test)]
 mod tests {
@@ -76,6 +8,11 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     use super::*;
+
+    use checkout::Checkout;
+    use item::Item;
+    use item::Item::*;
+    use price_list::PriceList;
 
     fn assert_total(items: Vec<Item>, expected_total: f64) {
         let mut checkout = build_check_out();
@@ -103,6 +40,16 @@ mod tests {
     #[test]
     fn test_checkout_with_1_apple() {
         assert_total(vec![Apple], 0.4);
+    }
+
+    #[test]
+    fn test_checkout_with_1_tomato() {
+        assert_total(vec![Tomato], 0.25);
+    }
+
+    #[test]
+    fn test_checkout_with_1_mango() {
+        assert_total(vec![Mango], 1.8);
     }
 
     #[test]
