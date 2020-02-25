@@ -248,5 +248,7 @@ name = "wirefilter_issue"
 version = "0.1.0"
 dependencies = [
  "failure",
+ "fnv",
+ "indexmap",
  "wirefilter-engine",
 ]

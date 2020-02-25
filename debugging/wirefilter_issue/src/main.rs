@@ -9,10 +9,15 @@ struct Data {
 fn main() {
     let data = Data {
         email: "luke@mettadata.com".to_string(),
-        rule: r#""#.to_string(),
+        rule: r#"
+            email == "luke@mettadata.com"
+        "#
+        .to_string(),
     };
 
     let result = process_rule_data(data);
+
+    println!("result: {:?}", result);
 }
 
 fn process_rule_data(data: Data) -> Result<bool, failure::Error> {
@@ -21,7 +26,7 @@ fn process_rule_data(data: Data) -> Result<bool, failure::Error> {
     };
 
     // Parse a Wireshark-like expression into an AST
-    let ast = scheme.parse(&data.rule)?; //  borrowed value does not live long enough??? HELP
+    let ast = scheme.parse(&data.rule).unwrap(); // unwrap is what was needed to fix this issue.
 
     // Compile the AST into an executable filter
     let filter = ast.compile();
@@ -39,6 +44,7 @@ fn process_rule_data(data: Data) -> Result<bool, failure::Error> {
 mod tests {
     use super::*;
 
+    #[test]
     fn test_process_rule_data() -> Result<(), failure::Error> {
         let test_data = Data {
             email: "luke@mettadata.com".to_string(),
