@@ -48,7 +48,7 @@ mod tests {
             .to_string(),
         };
 
-        assert_eq!(process_rule_data(data)?, true);
+        assert_eq!(process_rule_data(test_data)?, true);
         Ok(())
     }
 }
