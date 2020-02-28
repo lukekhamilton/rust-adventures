@@ -1,6 +1,11 @@
-mod hello_world;
+//mod hello_world;
 //mod modules;
+// mod testing;
+// mod generics;
+// mod lifetimes;
+mod error_handling;
 fn main() {
-    hello_world::run();
-    //    modules::run();
+    error_handling::run();
+    // generics::run();
+    // lifetimes::run();
 }
