@@ -1,0 +1,9 @@
+[package]
+name = "weather_sation_service"
+version = "0.1.0"
+authors = ["Luke Hamilton <luke@mettadata.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
