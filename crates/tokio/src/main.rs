@@ -1,6 +1,7 @@
 // mod helloworld;
-mod echo;
+// mod echo;
+mod identd;
 fn main() {
-    // helloworld::hello();
-    echo::main();
+    identd::main();
+    // echo::main();
 }
