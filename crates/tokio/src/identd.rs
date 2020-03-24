@@ -21,25 +21,11 @@ pub async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
     }
 }
 
+// handle client
 async fn handle_client(mut socket: TcpStream) -> Result<(), Box<dyn Error + Send + Sync>> {
     let remote_ip = socket.peer_addr()?.ip();
     println!("Received a connection from {}", remote_ip);
 
-    // version 1
-    // loop {
-    //     let mut buf = [0; 1024];
-    //     let n = socket.read(&mut buf).await?;
-    //
-    //     if n == 0 {
-    //         break;
-    //     }
-    //
-    //     let received = String::from_utf8(buf[0..n].to_vec())?;
-    //
-    //     println!("They sent: {}", received);
-    // }
-
-    // version 2
     let mut client = Framed::new(socket, LinesCodec::new_with_max_length(1024));
 
     // Read one line of query
@@ -71,6 +57,7 @@ enum IdentError {
     InvalidPort,
 }
 
+// parse incoming query
 fn parse_query(query: &str) -> Result<(u16, u16), Box<dyn Error + Send + Sync>> {
     let ports: Vec<&str> = query.split(",").map(|s| s.trim()).collect();
 
