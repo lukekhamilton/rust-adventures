@@ -8,5 +8,5 @@ edition = "2018"
 
 [dependencies]
 futures = "0.3"
-tokio = { version = "0.2", features = ["full"] }
-tokio-util = { version = "0.3", features = ["codec"] }
+tokio = { version = "0.2", features = ["full"], path = "/Users/metta/Dropbox/Code/__oss__/tokio/tokio" }
+tokio-util = { version = "0.3", features = ["codec"], path ="/Users/metta/Dropbox/Code/__oss__/tokio/tokio-util" }
