@@ -1,0 +1,12 @@
+[package]
+name = "eggmode"
+version = "0.1.0"
+authors = ["utx0 <utx0@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "*", features = ["full"] }
+egg-mode = { git = "https://github.com/egg-mode-rs/egg-mode.git" }
+anyhow = "1.0.38"
