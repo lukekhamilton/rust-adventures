@@ -1,24 +1,123 @@
-use std::collections::HashMap;
+// use reqwest::Error;
+// use serde::Deserialize;
+//
+// #[derive(Deserialize,Debug)]
+// struct Payload{
+//     id: u32,
+//     chain_id: String,
+//     height: u32,
+//     tx_hash: String,
+//     memo: String,
+//     messages: String,
+//     timestamp: String,
+//
+// }
+//
+// #[tokio::main]
+// async fn main() -> Result<(), Error> {
+//     // let request_url = format!("https://api.cosmostation.io/v1/account/txs/{to_address}",
+//     //                           to_address = "cosmos1ejrf4cur2wy6kfurg9f2jppp2h3afe5h6pkh5t");
+//     //
+//     // println!("{}", request_url);
+//     // let response = reqwest::get(&request_url).await?;
+//     //
+//     // // println!("{:?}", response.text().await?);
+//     //
+//     // let data: Vec<Payload> = response.json().await?;
+//     // println!("{}",data.len());
+//     // // println!("{:#?}", data);
+//     // Ok(())
+//
+//
+//     let reqwest_url = format!("https://rpc.cosmos.network/tx_search?query=\"transfer.recipient='{to_address}'\"",
+//                                 to_address = "cosmos1ejrf4cur2wy6kfurg9f2jppp2h3afe5h6pkh5t");
+//
+//     println!("{}", reqwest_url);
+//
+//     let response = reqwest::get(&reqwest_url).await?;
+//
+//     println!("{}", response.text().await?);
+//
+//     Ok(())
+// }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    fetch()?;
+use reqwest::Result;
+use serde::Deserialize;
+
+#[derive(Deserialize)]
+struct ApiResponse {
+    dependencies: Vec<Dependency>,
+    meta: Meta,
+}
+
+#[derive(Deserialize)]
+struct Dependency {
+    crate_id: String,
+}
+
+#[derive(Deserialize)]
+struct Meta {
+    total: u32,
+}
+
+struct ReverseDependencies {
+    crate_id: String,
+    dependencies: <Vec<Dependency> as IntoIterator>::IntoIter,
+    client: reqwest::blocking::Client,
+    page: u32,
+    per_page: u32,
+    total: u32,
+}
+
+impl ReverseDependencies {
+    fn of(crate_id: &str) -> Result<Self> {
+        Ok(ReverseDependencies {
+            crate_id: crate_id.to_owned(),
+            dependencies: vec![].into_iter(),
+            client: reqwest::blocking::Client::new(),
+            page: 0,
+            per_page: 100,
+            total: 0,
+        })
+    }
+
+    fn try_next(&mut self) -> Result<Option<Dependency>> {
+        if let Some(dep) = self.dependencies.next() {
+            return Ok(Some(dep));
+        }
+
+        if self.page > 0 && self.page * self.per_page >= self.total {
+            return Ok(None);
+        }
+
+        self.page += 1;
+        let url = format!("https://crates.io/api/v1/crates/{}/reverse_dependencies?page={}&per_page={}",
+                          self.crate_id,
+                          self.page,
+                          self.per_page);
+
+        let response = self.client.get(&url).send()?.json::<ApiResponse>()?;
+        self.dependencies = response.dependencies.into_iter();
+        self.total = response.meta.total;
+        Ok(self.dependencies.next())
+    }
+}
+
+impl Iterator for ReverseDependencies {
+    type Item = Result<Dependency>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.try_next() {
+            Ok(Some(dep)) => Some(Ok(dep)),
+            Ok(None) => None,
+            Err(err) => Some(Err(err)),
+        }
+    }
+}
+
+fn main() -> Result<()> {
+    for dep in ReverseDependencies::of("serde")? {
+        println!("reverse dependency: {}", dep?.crate_id);
+    }
     Ok(())
-}
-
-#[tokio::main]
-async fn fetch() -> Result<(String), Box<dyn std::error::Error>> {
-    let resp = reqwest::get("https://httpbin.org/ip")
-        .await?
-        .json::<HashMap<String, String>>()
-        .await?;
-    // println!("{:#?}", resp.get("origin").unwrap());
-    let result = String::from(resp.get("origin").unwrap());
-
-    Ok(result)
-}
-
-#[test]
-fn test_main() {
-    let results = fetch();
-    assert_eq!(results.unwrap(), "220.240.182.41");
 }
